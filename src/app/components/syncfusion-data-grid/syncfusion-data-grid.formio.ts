@@ -1,14 +1,16 @@
-import { NgZone, EventEmitter, ElementRef, Input } from "@angular/core";
-import { Components, CustomTagsService, ExtendedComponentSchema, FormioAlerts, FormioAppConfig, FormioBaseComponent, FormioComponent, FormioForm, FormioOptions, FormioRefreshValue, FormioService } from "@formio/angular";
+import { Injector } from '@angular/core';
+import { FormioCustomComponentInfo } from '../../fomioLib/elements.common';
+import { registerCustomFormioComponent } from '../../fomioLib/register-custom-component';
+import { SyncfusionDataGridComponent } from './syncfusion-data-grid.component';
 
+const COMPONENT_OPTIONS: FormioCustomComponentInfo = {
+  type: 'syncgrid',
+  selector: 'sync-grid',
+  title: 'Sync Grid',
+  group: 'syncfusion',
+  icon: 'table',
+};
 
-type ClassWithEditForm<C> = C & { editForm: () => { components: ExtendedComponentSchema[] } };
-
-export class SyncfusionDataGridFormio {
-
-    public myCustomInput = Components.create(Input, {
-        label: 'Custom Input',
-        placeholder: 'Enter something...',
-        
-      });
+export function registerSyncGridComponent(injector: Injector) {
+  registerCustomFormioComponent(COMPONENT_OPTIONS, SyncfusionDataGridComponent, injector);
 }

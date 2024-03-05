@@ -1,5 +1,5 @@
 import { AfterRenderPhase, AfterViewInit, Component, OnInit, inject } from '@angular/core';
-import { FormioModule } from '@formio/angular';
+import { Formio, FormioForm, FormioModule } from '@formio/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,41 +13,43 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './form-renderer.component.scss'
 })
 export class FormRendererComponent implements OnInit {
-
-  renderListTitle?: [];
-  selectedTitle?: string;
-  FormTitileControls: any
-  FormControlsJson?: string
-  FormSubmitJson?: string
-
-
+  public formTemplates!: FormioForm[];
+  public selectedTemplate!: any;
+  public submitedTemplate!: {};
+  public isTemplateSelected: boolean = false;
+  public isDataSubmited: boolean = false;
+  FormSubmitJson?: string;
 
   ngOnInit(): void {
-    this.loadFormData();
+    let existingData = localStorage.getItem('FormsJson');
+    if (existingData !== null) {
+      this.formTemplates = JSON.parse(existingData);
+    }
+
   }
 
-  loadFormData() {
-    let formControlData: any = localStorage.getItem('FormControlData');
-    if (formControlData === null) {
-      console.log('Null');
-      alert("No Data Found For Form Title")
-    } else {
-      formControlData = JSON.parse(formControlData);
-      const titlesArray = formControlData.map((formTitle: any) => formTitle.title);
-      this.renderListTitle = titlesArray;
+  renderTemplate(event: any) {
+    if (event.target.value == -1) {
+      this.isTemplateSelected = false;
+    }
+    else {
+      this.isTemplateSelected = true;
+      this.isDataSubmited = false;
+      this.selectedTemplate = this.formTemplates[event.target.value];
+      Formio.createForm(
+        document.getElementById('formio'),
+        this.selectedTemplate,
+        {
+          sanitize: true,
+          sanitizeConfig: {
+            allowedTags: ['sync-grid', 'emp-tab'],
+            addTags: ['sync-grid', 'emp-tab']
+          }
+        }
+      );
     }
   }
 
-  onTitleSelectionChange() {
-    let formControlData: any = localStorage.getItem('FormControlData');
-    formControlData = JSON.parse(formControlData);
-    let rendrerData = formControlData.filter((ele: any) => {
-      return ele.title === this.selectedTitle
-    })
-    console.log(rendrerData);
-    this.FormTitileControls = rendrerData[0];
-    this.FormControlsJson = JSON.stringify(this.FormTitileControls.components, null, 4)
-  }
   onSubmit(submission: any) {
     // Handle the form submission data
     console.log('Form submitted with data:', submission.data);

@@ -6,66 +6,29 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-            <label for="" class="form-label">Select Form:</label>
-                <!-- <select class="form-control form-select-lg mb-3" name="FormTitle" [(ngModel)]="selectedTitle" (change)="onTitleSelectionChange()">
-                    @for (item of renderListTitle; track $index) {
-                        <option [value]="item">
-                            {{ item }}
-                          </option>
-                    }
-                </select> -->
-                <select
-          class="form-control form-select-lg mb-3"
-          name="FormTitle"
-          (change)="renderTemplate($event)"
-        >
-          <option value="-1" selected>select template</option>
-          <option *ngFor="let form of formTemplates; let i = index" [value]="i">
-            {{ form.title }}
-          </option>
-        </select>
-            </div>    
+                <h1>SetValue</h1>
+                <h1>GetValue</h1>
+            </div>
         </div>
         <div class="col-md-8">
             <div id="formio"></div>
         </div>
     </div>
-<hr>
     <div class="row">
-        <!-- <div class="col-md-6 p-3">
-            <div class="text-center">
-                <h4>Form Components Json</h4>  
+        <div class="col-md-6">
+            <div class="form-group">
+                <h3>GetValue</h3>
+<h2>{{getDataformio}}</h2>
             </div>
-            <div class="input-group mb-3 mt-3">
-               <pre> {{selectedJsonRef }}</pre>
-              </div>
-        </div> -->
-        <div class="col jsonScreen">
-            <ng-container
-              *ngIf="isTemplateSelected; then selectedJsonRef; else emptyJsonRef"
-            ></ng-container>
-      
-            <ng-template #emptyJsonRef>
-              <div>JSON not available!</div>
-            </ng-template>
-      
-            <ng-template #selectedJsonRef>
-              <div>
-                <div class="text-center">
-                  <h4>{{ isDataSubmited ? "Data JSON" : "Template JSON" }}</h4>
-                </div>
-                <div class="input-group mb-3 mt-3">
-                  <pre>
-                                  {{
-                      (isDataSubmited ? submitedTemplate : selectedTemplate) | json
-                    }}
-                              </pre
-                  >
-                </div>
-              </div>
-            </ng-template>
-          </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <h1>SetValue</h1>
+            </div>
+        </div>
     </div>
+    <hr>
+
 </div>
 
 

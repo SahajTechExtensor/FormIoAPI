@@ -1,63 +1,79 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { FormioModule } from '@formio/angular';
+import { Component, ElementRef, NgModule, OnInit, ViewChild, inject } from '@angular/core';
+import { FormioForm, FormioModule } from '@formio/angular';
 import { FormFieldsTab } from '../../customFields/form-fields-tab';
+import { FormsModule, NgModel } from '@angular/forms';
 
 
 
 @Component({
   selector: 'app-form-builder',
   standalone: true,
-  imports: [FormioModule],
+  imports: [FormioModule, FormsModule ],
   templateUrl: './form-builder.component.html',
   styleUrl: './form-builder.component.scss',
   providers:[]
 })
-export class FormBuilderComponent implements OnInit {
-  @ViewChild('json')
-  jsonElement?: ElementRef;
-  options: any
-  public form: Object = {
-    components: [],
-  };
-  // public rebuildEmitter: Subject<void> = new Subject<void>();
-
+export class FormBuilderComponent  {
+  public form!: FormioForm;
+  public builderOption!: {};
 
   constructor() {
-    this.options = FormFieldsTab
-    console.log(this.options)
+    this.form = {
+      title: '',
+      components: []
+    };
+
+    this.builderOption = FormFieldsTab
   }
 
+  onChange(event:any): void {
+    if(event.type === 'updateComponent' && event.component.type === "syncgrid")
+    {
+      document
+      .querySelectorAll(
+        'div[style*="background-color: rgba(0, 0, 0, 0.5)"]'
+      )
+      .forEach((e) => {
+        e.remove();
+      });
 
-  ngOnInit(): void {
-
-  }
-
-
-  @ViewChild('FormBilder')
-  FormBilder: any;
-
-  @ViewChild('FormTitle')
-  FormTitle?: ElementRef;
-
-  OnSubmit() {
-    console.log(this.FormTitle?.nativeElement.value)
-    this.FormBilder = {
-      title: this.FormTitle?.nativeElement.value,
-      components: this.FormBilder.form.components
+      document
+      .querySelectorAll(
+        'div[style*="z-index: 999999999"]'
+      )
+      .forEach((e) => {
+        e.remove();
+      });
     }
+  }
 
+  onSaveForm() {
+    let existingData = localStorage.getItem('FormsJson');
 
-    console.log(this.FormBilder);
-    let existingData = localStorage.getItem('FormControlData');
     if (existingData === null) {
-      localStorage.setItem('FormControlData', JSON.stringify([this.FormBilder]));
-    } else {
-      let formControlData: any[] = JSON.parse(existingData);
-      console.log(formControlData);
-      formControlData.push(this.FormBilder);
-      localStorage.setItem('FormControlData', JSON.stringify(formControlData));
+      localStorage.setItem('FormsJson', JSON.stringify([this.form]));
     }
+
+    else {
+      let formsJson = JSON.parse(existingData);
+      let alradyExistForm: boolean = false;
+      let alradyExistFormIndex: number = -1;
+
+      formsJson.forEach((form: FormioForm, index: number) => {
+        if (form.title === this.form.title) {
+          alradyExistForm = true;
+          alradyExistFormIndex = index;
+        }
+      });
+
+      if (alradyExistForm) {
+        formsJson[alradyExistFormIndex] = this.form;
+      }
+      else {
+        formsJson.push(this.form);
+      }
+      localStorage.setItem('FormsJson', JSON.stringify(formsJson));
+    }
+
   }
 }
-
-
