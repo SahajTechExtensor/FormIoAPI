@@ -17,12 +17,14 @@ export class AppComponent implements OnInit {
   title = 'FormIoAPI';
 
   constructor(injector:Injector){
+    // Registers the SyncGrid Component using the provided Injector.
     registerSyncGridComponent(injector);
+    // Registers the bootstrap Table Component as same by Injector.
     registerEmpTableComponent(injector);
   }
 
   ngOnInit(): void {
-      // // Removing Syncfusion premium dialog after 2 seconds
+      // Removing Syncfusion premium dialog after 2 seconds
       setTimeout(() => {
           const els = document.querySelectorAll(
               'div[style*="z-index: 999999999"]'

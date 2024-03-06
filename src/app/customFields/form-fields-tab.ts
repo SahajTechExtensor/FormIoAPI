@@ -1,30 +1,37 @@
-import { Formio } from "formiojs";
-
 export const FormFieldsTab = {
+
+
+  //Our Custom Tag not be allowed by DOMPurify sanitizing
+  // So 
   sanitize:true,
   sanitizeConfig: {
-    allowedTags: ['sync-grid','emp-tab'],
-    addTags: ['sync-grid','emp-tab']
+    allowedTags: ['','emp-tab','sync-grid'],
+    addTags: ['','emp-tab','sync-grid']
   },
+
+
+
   builder: {
  
     basic: {
       default: false,
       weight: 1,
+      components:{
+      }
     },
+
+     // TAb -c1
 
     _custom: {
       title: ' Default Tab',
       weight: -1,
       default: false,
       components: {
-      
+        
       },
     },
   
-
-
-    // TAb -2
+    // TAb - 2
 
     syncfusion: {
       title: 'syncfusion Grid',
@@ -41,7 +48,7 @@ export const FormFieldsTab = {
             clearOnHide: true,
             input: true,
             tree: true,
-            defaultValue: "defValuekey1Saved",            
+            defaultValue: "Sahaj Set default Value🤞 ",            
             dataSrc: 'custom',
             data: {
               custom:"values = Mansuri "
@@ -59,12 +66,12 @@ export const FormFieldsTab = {
             type: 'textfield',
             key: 'firstName',
             input: true,
-            defaultValue: "defValuekey1Saved",
+            defaultValue: "Sahaj Set default Value🤞",
             dataSrc: 'custom',
               data: {
                 custom:"values = Mansuri "
               },
-             // url: 'https://dummyjson.com/products'
+             
          
           }
         },

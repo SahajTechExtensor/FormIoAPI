@@ -9,11 +9,6 @@ import { Component } from 'formiojs/types/components/_classes/component/componen
 export function registerCustomTag(tag: string, injector: Injector): void {
   injector.get(CustomTagsService).addCustomTag(tag);
 }
-
-// export function registerCustomTags(tags: string[], injector: Injector): void {
-//   tags.forEach(tag => registerCustomTag(tag, injector));
-// }
-
 export function registerCustomFormioComponent(
   options: FormioCustomComponentInfo,
   angularComponent: Type<any>,
@@ -27,17 +22,3 @@ export function registerCustomFormioComponent(
   Components.setComponent(options.type, createCustomFormioComponent(options));
 }
 
-// export function registerCustomFormioComponentWithClass(
-//   options: FormioCustomComponentInfo,
-//   angularComponent: Type<any>,
-//   formioClass: any,
-//   injector: Injector,
-// ): void {
-//   registerCustomTag(options.selector, injector);
-
-//   const complexCustomComponent = createCustomElement(angularComponent, { injector });
-//   customElements.define(options.selector, complexCustomComponent);
-
-//   Components.setComponent(options.type, formioClass);
-  
-// }
